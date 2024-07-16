@@ -1,9 +1,11 @@
 package meowlin
 
 /**
- * A singly linked list implementation.
+ * An immutable singly linked list implementation.
  */
-class SingleList<T>() {
+class SingleList<E>() {
+    private var data: Node<E> = Node()
+
     private class Node<T>() {
         var curr: T? = null
         var next: Node<T>? = null
@@ -14,28 +16,32 @@ class SingleList<T>() {
         }
     }
 
-    private var body: Node<T> = Node()
-    val head: T?
-        get() = body.curr
-    val tail: SingleList<T>
-        get() = toList().let{
+
+    /** Returns the first element. */
+    val head: E?
+        get() = data.curr
+
+    /** Returns all elements but the first. */
+    val tail: SingleList<E>
+        get() = toList().let {
             if (it.isNotEmpty()) SingleList(it.drop(1))
             else SingleList()
         }
-    var size: Int = 0
 
-    operator fun plus(data: SingleList<T>): SingleList<T> =
-        SingleList(toList() + data.toList())
+    /** Returns the size of the list. */
+    var size: Int = 0
+        private set(value) = value.let { field = it }
+
 
     /**
      * Returns the read-only array list of this list.
      * Currently, it is implemented using tail recursion.
      */
-    fun toList(): List<T> {
+    fun toList(): List<E> {
         tailrec fun lessen(
-            data: Node<T>? = body,
-            result: List<T> = listOf()
-        ): List<T> =
+            data: Node<E>? = this.data,
+            result: List<E> = listOf()
+        ): List<E> =
             if (data?.curr == null) result
             else lessen(data.next, result + data.curr!!)
         return lessen()
@@ -47,7 +53,7 @@ class SingleList<T>() {
      */
     override fun toString(): String {
         tailrec fun lessen(
-            data: Node<T>? = body,
+            data: Node<E>? = this.data,
             result: String = "["
         ): String =
             if (data?.curr == null) "$result]"
@@ -56,29 +62,26 @@ class SingleList<T>() {
         return lessen()
     }
 
-    constructor(vararg elements: T) : this() {
+
+    constructor(vararg elements: E) : this() {
         tailrec fun lessen(
-            data: List<T> = elements.toList(),
-            result: Node<T>? = null
-        ): Node<T> =
+            data: List<E> = elements.toList(),
+            result: Node<E>? = null
+        ): Node<E> =
             if (data.size == 1) Node(data.last(), result)
             else lessen(data.dropLast(1), Node(data.last(), result))
-        body = lessen()
+        data = lessen()
         size = elements.size
     }
-
-    constructor(elements: List<T>) : this() {
+    constructor(elements: List<E>) : this() {
         tailrec fun lessen(
-            data: List<T> = elements,
-            result: Node<T>? = null
-        ): Node<T> =
+            data: List<E> = elements,
+            result: Node<E>? = null
+        ): Node<E> =
             if (data.size == 1) Node(data.last(), result)
             else lessen(data.dropLast(1), Node(data.last(), result))
-        body = lessen()
+        data = lessen()
         size = elements.size
     }
 
 }
-
-operator fun <T> T.plus(elements: SingleList<T>): SingleList<T> =
-    SingleList(listOf(this) + elements.toList())
