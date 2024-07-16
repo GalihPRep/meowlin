@@ -57,7 +57,7 @@ class SingleList<E>() {
     fun isEmpty(): Boolean = size == 0
 
     /**
-     * Returns the read-only array list of this list.
+     * Returns a [List] containing all elements.
      * Currently, it is implemented using tail recursion.
      */
     fun toList(): List<E> {
