@@ -16,24 +16,30 @@ class SingleList<E>() {
         }
     }
 
-
-    /** Returns the first element. */
+    /**
+     * Returns the first element.
+     */
     val head: E?
         get() = data.curr
 
-    /** Returns all elements but the first. */
+    /**
+     * Returns all elements but the first.
+     */
     val tail: SingleList<E>
         get() = toList().let {
             if (it.isNotEmpty()) SingleList(it.drop(1))
             else SingleList()
         }
 
-    /** Returns the size of the list. */
+    /**
+     * Returns the size of the list.
+     */
     var size: Int = 0
         private set(value) = value.let { field = it }
 
-
-    /** Returns the element at the specified index in the list. */
+    /**
+     * Returns the element at the specified index in the list.
+     */
     operator fun get(index: Int): E? {
         tailrec fun lessen(
             data: Node<E>? = this.data,
@@ -78,7 +84,6 @@ class SingleList<E>() {
             else lessen(data.next, "$result, ${data.curr}")
         return lessen()
     }
-
 
     constructor(vararg elements: E) : this() {
         tailrec fun lessen(
