@@ -1,22 +1,32 @@
 package meowlin
 
 fun main() {
-    fun qr(a: String) = println(a)
-    fun qt(a: String) = println("\n$a")
+    `SingleList test`()
+    `toList test`()
+}
 
-    qr("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OPTION")
-    println(optionOf("Hinako"))
-    println(optionOf(null))
+fun `SingleList test`() {
+    val qa = SingleList<Int>()
+    val qb = SingleList(0, 1, 2)
+    assert(qa.head == null)
+    assert(qb.head == 0)
+    println("`head` works!")
+    assert(qa.size == 0)
+    assert(qb.size == 3)
+    println("`size` works!")
+    assert(qa.tail == SingleList<Int>())
+    assert(qb.tail == SingleList(1, 2))
+    println("`tail` works!")
+}
 
-    qt("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SOME")
-    val qa = Some("Hinako")
-    val qaRep = qa.map(String::uppercase)
-    val qaUnw = qa.unwrap()
-    for (n in listOf(qa, qaRep, qaUnw)) println(n)
-
-    qt("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% NONE")
-    val qb = None<String>()
-    val qbRep = qb.map(String::uppercase)
-    val qbUnw = qb.unwrap("Hinako")
-    for (n in listOf(qb, qbRep, qbUnw)) println(n)
+fun `toList test`() {
+    val qa = SingleList<Int>()
+    val qb = SingleList(0)
+    val qc = SingleList(0, 1)
+    val qd = SingleList(0, 1, 2)
+    assert(qa.toList() == listOf<Int>())
+    assert(qb.toList() == listOf(0))
+    assert(qc.toList() == listOf(0, 1))
+    assert(qd.toList() == listOf(0, 1, 2))
+    println("`toList` works!")
 }

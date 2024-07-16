@@ -1,5 +1,8 @@
 package meowlin
 
+/**
+ * A singly linked list implementation.
+ */
 class SingleList<T>() {
     private class Node<T>() {
         var curr: T? = null
@@ -15,14 +18,21 @@ class SingleList<T>() {
     val head: T?
         get() = body.curr
     val tail: SingleList<T>
-        get() = SingleList(toList().drop(1))
+        get() = toList().let{
+            if (it.isNotEmpty()) SingleList(it.drop(1))
+            else SingleList()
+        }
     var size: Int = 0
 
     operator fun plus(data: SingleList<T>): SingleList<T> =
         SingleList(toList() + data.toList())
 
+    /**
+     * Returns the read-only array list of this list.
+     * Currently, it is implemented using tail recursion.
+     */
     fun toList(): List<T> {
-        fun lessen(
+        tailrec fun lessen(
             data: Node<T>? = body,
             result: List<T> = listOf()
         ): List<T> =
@@ -31,8 +41,12 @@ class SingleList<T>() {
         return lessen()
     }
 
+    /**
+     * Returns the string representation of this list.
+     * Currently, it is implemented using tail recursion.
+     */
     override fun toString(): String {
-        fun lessen(
+        tailrec fun lessen(
             data: Node<T>? = body,
             result: String = "["
         ): String =
@@ -43,7 +57,7 @@ class SingleList<T>() {
     }
 
     constructor(vararg elements: T) : this() {
-        fun lessen(
+        tailrec fun lessen(
             data: List<T> = elements.toList(),
             result: Node<T>? = null
         ): Node<T> =
@@ -54,7 +68,7 @@ class SingleList<T>() {
     }
 
     constructor(elements: List<T>) : this() {
-        fun lessen(
+        tailrec fun lessen(
             data: List<T> = elements,
             result: Node<T>? = null
         ): Node<T> =
