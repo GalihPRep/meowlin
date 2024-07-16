@@ -2,22 +2,42 @@ package meowlin
 
 fun main() {
     `SingleList test`()
+    `get test`()
+    `isEmpty test`()
     `toList test`()
     `toString test`()
 }
 
 fun `SingleList test`() {
     val qa = SingleList<Int>()
-    val qb = SingleList(0, 1, 2)
+    val qd = SingleList(0, 1, 2)
     assert(qa.head == null)
-    assert(qb.head == 0)
+    assert(qd.head == 0)
     println("`head` works!")
     assert(qa.size == 0)
-    assert(qb.size == 3)
+    assert(qd.size == 3)
     println("`size` works!")
     assert(qa.tail == SingleList<Int>())
-    assert(qb.tail == SingleList(1, 2))
+    assert(qd.tail == SingleList(1, 2))
     println("`tail` works!")
+}
+
+fun `get test`() {
+    val qa = SingleList<Int>()
+    val qd = SingleList(0, 1, 2)
+    assert(qa[0] == null)
+    assert(qd[0] == 0)
+    assert(qd[1] == 1)
+    assert(qd[2] == 2)
+    println("`get` works!")
+}
+
+fun `isEmpty test`() {
+    val qa = SingleList<Int>()
+    val qd = SingleList(0, 1, 2)
+    assert(qa.isEmpty())
+    assert(!qd.isEmpty())
+    println("`isEmpty` works!")
 }
 
 fun `toList test`() {

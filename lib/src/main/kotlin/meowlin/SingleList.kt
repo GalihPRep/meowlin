@@ -33,6 +33,23 @@ class SingleList<E>() {
         private set(value) = value.let { field = it }
 
 
+    /** Returns the element at the specified index in the list. */
+    operator fun get(index: Int): E? {
+        tailrec fun lessen(
+            data: Node<E>? = this.data,
+            i: Int = 0
+        ): E? =
+            if (i == index) data?.curr
+            else lessen(data?.next, i + 1)
+        return lessen()
+    }
+
+    /**
+     * Returns `true` if the collection is empty (contains no elements),
+     * `false` otherwise.
+     */
+    fun isEmpty(): Boolean = size == 0
+
     /**
      * Returns the read-only array list of this list.
      * Currently, it is implemented using tail recursion.
@@ -73,6 +90,7 @@ class SingleList<E>() {
         data = lessen()
         size = elements.size
     }
+
     constructor(elements: List<E>) : this() {
         tailrec fun lessen(
             data: List<E> = elements,
