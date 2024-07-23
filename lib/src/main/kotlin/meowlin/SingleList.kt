@@ -3,18 +3,8 @@ package meowlin
 /**
  * An immutable singly linked list implementation.
  */
-class SingleList<E>() {
+class SingleList<E>() : Collection<E> {
     private var data: Node<E> = Node()
-
-    private class Node<T>() {
-        var curr: T? = null
-        var next: Node<T>? = null
-
-        constructor(prev: T, next: Node<T>?) : this() {
-            this.curr = prev
-            this.next = next
-        }
-    }
 
     /**
      * Returns the first element.
@@ -31,11 +21,23 @@ class SingleList<E>() {
             else SingleList()
         }
 
-    /**
-     * Returns the size of the list.
-     */
-    var size: Int = 0
+    override var size: Int = 0
         private set(value) = value.let { field = it }
+
+    override fun containsAll(elements: Collection<E>): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun contains(element: E): Boolean {
+        tailrec fun lessen(
+            data: Node<E>? = this.data,
+            i: Int = 0
+        ): Boolean =
+            if (data?.curr == element) true
+            else if (data?.curr != null) lessen(data.next, i + 1)
+            else false
+        return lessen()
+    }
 
     /**
      * Returns the element at the specified index in the list.
@@ -50,11 +52,11 @@ class SingleList<E>() {
         return lessen()
     }
 
-    /**
-     * Returns `true` if the collection is empty (contains no elements),
-     * `false` otherwise.
-     */
-    fun isEmpty(): Boolean = size == 0
+    override fun isEmpty(): Boolean = size == 0
+
+    override fun iterator(): Iterator<E> {
+        TODO("Not yet implemented")
+    }
 
     /**
      * Returns a [List] containing all elements.
@@ -70,10 +72,6 @@ class SingleList<E>() {
         return lessen()
     }
 
-    /**
-     * Returns the string representation of this list.
-     * Currently, it is implemented using tail recursion.
-     */
     override fun toString(): String {
         tailrec fun lessen(
             data: Node<E>? = this.data,
@@ -107,4 +105,14 @@ class SingleList<E>() {
         size = elements.size
     }
 
+}
+
+private class Node<T>() {
+    var curr: T? = null
+    var next: Node<T>? = null
+
+    constructor(prev: T, next: Node<T>?) : this() {
+        this.curr = prev
+        this.next = next
+    }
 }
