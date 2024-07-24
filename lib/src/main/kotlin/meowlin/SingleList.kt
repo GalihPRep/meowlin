@@ -24,10 +24,6 @@ class SingleList<E>() : Collection<E> {
     override var size: Int = 0
         private set(value) = value.let { field = it }
 
-    override fun containsAll(elements: Collection<E>): Boolean {
-        TODO("Not yet implemented")
-    }
-
     override fun contains(element: E): Boolean {
         tailrec fun lessen(
             data: Node<E>? = this.data,
@@ -36,6 +32,16 @@ class SingleList<E>() : Collection<E> {
             if (data?.curr == element) true
             else if (data?.curr != null) lessen(data.next, i + 1)
             else false
+        return lessen()
+    }
+
+    override fun containsAll(elements: Collection<E>): Boolean {
+        tailrec fun lessen(
+            data: Collection<E> = elements,
+            truth: Boolean = false
+        ): Boolean =
+            if (data.isNotEmpty()) lessen(data.drop(1), contains(data.first()))
+            else truth
         return lessen()
     }
 

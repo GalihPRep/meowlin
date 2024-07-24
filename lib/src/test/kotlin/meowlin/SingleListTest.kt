@@ -3,6 +3,7 @@ package meowlin
 fun main() {
     `SingleList test`()
     `contains test`()
+    `containsAll test`()
     `get test`()
     `isEmpty test`()
     `toList test`()
@@ -31,6 +32,14 @@ fun `contains test`() {
     assert(qd.contains(1))
     assert(qd.contains(2))
     println("`contains` works!")
+}
+
+fun `containsAll test`() {
+    val qd = SingleList(0, 1, 2)
+    val qg = SingleList(0, 1, 2, 3, 4, 5)
+    println(qg.containsAll(qd.toList()))
+    println(qd.containsAll(qg.toList()))
+//    println(qg.containsAll(qd))
 }
 
 fun `get test`() {
